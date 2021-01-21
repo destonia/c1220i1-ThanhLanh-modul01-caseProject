@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meteor Defence</title>
+    <script src="meteor.js"></script>
+    <script src="barrier.js"></script>
+    <style>
+        table {
+            border: solid black;
+            width: 400px;
+            border-collapse: collapse;
+        }
+
+        th, tr, td {
+            border: solid black;
+
+        }
+
+        img {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<canvas id="canvas1" width="400px" height="400px" style="background-color: pink"></canvas>
+<!--<button type="button" onclick="start()">start</button>-->
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Point</th>
+    </tr>
+    <tr>
+        <td id="name"></td>
+        <td id="point"></td>
+    </tr>
+</table>
+<img src="barrier.png" id="barrierImg">
+<img src="town.jpg" id="townImg">
+<img src="meteor.png" id="meteorImg">
+</body>
+<script>
+    let barrierImg = document.getElementById('barrierImg');
+    let townImg = document.getElementById('townImg');
+    let meteorImg=document.getElementById('meteorImg');
+    let name = [];
+    let score = 0;
+    let canvas = document.getElementById('canvas1');
+    let ctx = canvas.getContext("2d");
+
+    let meteors = new Meteor(40);
+    let barrier = new Barrier(100, 20)
+    barrier.init(canvas);
+
+    function drawScore() {
+        ctx.fillStyle = "#000000"
+        ctx.font = "30px Arial";
+        ctx.fillText("Point: "+score, 150, 100);
+    }
+
+    function draw() {
+        // vẽ cái hình nền trời xanh
+        ctx.drawImage(townImg, 0, 0, 400, 400)
+        drawObject();
+    }
+
+    function drawObject() {
+        meteors.render(canvas);
+        barrier.render(canvas);
+        drawScore();
+    }
+
+    function loop() {
+        meteors.update();
+        draw();
+    }
+
+    function getPoint() {
+        document.getElementById('point').innerHTML = score + 1;
+    }
+
+    function getName() {
+        name = prompt('tell me your name');
+        document.getElementById('name').innerHTML = name;
+    }
+
+    getName();
+    let timerId = setInterval(loop, 20);
+</script>
+</html>
