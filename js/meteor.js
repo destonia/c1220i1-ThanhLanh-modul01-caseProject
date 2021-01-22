@@ -3,7 +3,6 @@ class Meteor {
         this.x = 150;
         this.y = 0;
         this.visible = true;
-        this.addedScore = false;
         this.speed=0;
     }
 
@@ -22,34 +21,30 @@ class Meteor {
         if (this.y <= 350) {
             this.y +=(2+ this.speed);
         }
-
         this.checkInBarrier();
-    }
-    speedUp(){
-
     }
 
     checkInBarrier() {
 
-        if (this.y >= 350) {
+        if (this.y+20 >= 350) {
             if (
                 (this.x > barrier.x) &&
                 (this.x < (barrier.x + barrier.width))
             ) {
-                // ẩn trứng đi
                 getPoint();
-                this.visible = false;
                 this.y=0;
-                this.visible=true;
                 score+=1;
                 this.speed+=1;
-                if(score>10&&score%5==0){
+                if(score>10&&score%5===0){
                     this.speed=10
                 }
-
                 this.init();
             } else {
-                alert('game over');
+                //saveData();
+
+                //alert('game over');
+                //drawGameOver();
+                clearSky();
                 clearInterval(timerId);
             }
         }
@@ -57,13 +52,8 @@ class Meteor {
     }
 
     render(canvas) {
-        // let ctx = document.getElementById("myCanvas").getContext('2d');
-        if (this.visible) {
             let ctx = canvas.getContext('2d');
             ctx.drawImage(meteorImg,this.x,this.y,20,50);
-        }
-
-
     }
 }
 

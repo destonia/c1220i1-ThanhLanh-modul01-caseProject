@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Meteor Defence</title>
-    <script src="meteor.js"></script>
-    <script src="barrier.js"></script>
+    <script src="js/meteor.js"></script>
+    <script src="js/barrier.js"></script>
     <style>
         table {
             border: solid black;
@@ -25,7 +25,7 @@
 <body>
 <canvas id="canvas1" width="400px" height="400px" style="background-color: pink"></canvas>
 <!--<button type="button" onclick="start()">start</button>-->
-<table>
+<table id="scoreBoard">
     <tr>
         <th>Name</th>
         <th>Point</th>
@@ -35,11 +35,13 @@
         <td id="point"></td>
     </tr>
 </table>
-<img src="barrier.png" id="barrierImg">
-<img src="town.jpg" id="townImg">
-<img src="meteor.png" id="meteorImg">
+<img src="images/barrier.png" id="barrierImg">
+<img src="images/town.png" id="townImg">
+<img src="images/meteor.png" id="meteorImg">
 </body>
 <script>
+    loadData();
+    let scoreBoard=loadData();
     let barrierImg = document.getElementById('barrierImg');
     let townImg = document.getElementById('townImg');
     let meteorImg=document.getElementById('meteorImg');
@@ -48,19 +50,32 @@
     let canvas = document.getElementById('canvas1');
     let ctx = canvas.getContext("2d");
 
-    let meteors = new Meteor(40);
+    let meteors = new Meteor();
     let barrier = new Barrier(100, 20)
     barrier.init(canvas);
 
     function drawScore() {
-        ctx.fillStyle = "#000000"
+        ctx.fillStyle = "#ffffff"
         ctx.font = "30px Arial";
         ctx.fillText("Point: "+score, 150, 100);
     }
 
-    function draw() {
-        // vẽ cái hình nền trời xanh
+    function clearSky(){
+        ctx.clearRect(0,0,canvas.width,canvas.height)
+    }
+
+    function drawGameOver(){
+        clearInterval(timerId);
+        drawSky();
+        ctx.fillStyle="#ffffff";
+        ctx.font = "30px Arial";
+        ctx.fillText("Game Over",150,100);
+    }
+    function drawSky(){
         ctx.drawImage(townImg, 0, 0, 400, 400)
+    }
+    function draw() {
+        drawSky();
         drawObject();
     }
 
@@ -83,8 +98,20 @@
         name = prompt('tell me your name');
         document.getElementById('name').innerHTML = name;
     }
+    function saveData() {
+        localStorage.setItem('name', JSON.stringify(scoreBoard));
+    }
 
+    function loadData() {
+        if (localStorage.hasOwnProperty('name')) {
+            let data = JSON.parse(localStorage.getItem('name'));
+            return data;
+        } else {
+            return [];
+        }
+    }
+    //drawGameOver();
     getName();
-    let timerId = setInterval(loop, 20);
+    let timerId = setInterval(loop,20);
 </script>
 </html>
