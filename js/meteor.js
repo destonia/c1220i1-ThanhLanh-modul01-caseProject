@@ -42,7 +42,7 @@ class Meteor {
             } else {
                 //saveData();
 
-                //alert('game over');
+                alert('game over');
                 //drawGameOver();
                 clearSky();
                 clearInterval(timerId);
