@@ -38,13 +38,15 @@
 <img src="images/barrier.png" id="barrierImg">
 <img src="images/town.png" id="townImg">
 <img src="images/meteor.png" id="meteorImg">
+<button type="button" onclick="start()">start</button>
+<button type="button" onclick="restart()">restart</button>
 </body>
 <script>
     loadData();
-    let scoreBoard=loadData();
+    let scoreBoard = loadData();
     let barrierImg = document.getElementById('barrierImg');
     let townImg = document.getElementById('townImg');
-    let meteorImg=document.getElementById('meteorImg');
+    let meteorImg = document.getElementById('meteorImg');
     let name = [];
     let score = 0;
     let canvas = document.getElementById('canvas1');
@@ -57,23 +59,25 @@
     function drawScore() {
         ctx.fillStyle = "#ffffff"
         ctx.font = "30px Arial";
-        ctx.fillText("Point: "+score, 150, 100);
+        ctx.fillText("Point: " + score, 150, 100);
     }
 
-    function clearSky(){
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+    function clearSky() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
     }
 
-    function drawGameOver(){
+    function drawGameOver() {
         clearInterval(timerId);
         drawSky();
-        ctx.fillStyle="#ffffff";
+        ctx.fillStyle = "#ffffff";
         ctx.font = "30px Arial";
-        ctx.fillText("Game Over",150,100);
+        ctx.fillText("Game Over", 150, 100);
     }
-    function drawSky(){
+
+    function drawSky() {
         ctx.drawImage(townImg, 0, 0, 400, 400)
     }
+
     function draw() {
         drawSky();
         drawObject();
@@ -83,6 +87,17 @@
         meteors.render(canvas);
         barrier.render(canvas);
         drawScore();
+    }
+
+    function start() {
+        //getName();
+        timerId = setInterval(loop, 20);
+    }
+
+    function restart(){
+        //location.reload();
+        clearInterval(timerId);
+        timerId = setInterval(loop, 20);
     }
 
     function loop() {
@@ -98,6 +113,7 @@
         name = prompt('tell me your name');
         document.getElementById('name').innerHTML = name;
     }
+
     function saveData() {
         localStorage.setItem('name', JSON.stringify(scoreBoard));
     }
@@ -110,8 +126,10 @@
             return [];
         }
     }
+
     //drawGameOver();
-    getName();
-    let timerId = setInterval(loop,20);
+    //getName();
+    //start();
+    //let timerId = setInterval(loop, 20);
 </script>
 </html>

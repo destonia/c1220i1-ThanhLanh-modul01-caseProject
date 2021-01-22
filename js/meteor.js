@@ -31,7 +31,7 @@ class Meteor {
                 (this.x > barrier.x) &&
                 (this.x < (barrier.x + barrier.width))
             ) {
-                getPoint();
+
                 this.y=0;
                 score+=1;
                 this.speed+=1;
@@ -41,9 +41,13 @@ class Meteor {
                 this.init();
             } else {
                 //saveData();
-
+                this.y=0;
                 alert('game over');
-                //drawGameOver();
+                getName();
+                getPoint();
+                score=0;
+                this.speed=0;
+                drawGameOver();
                 clearSky();
                 clearInterval(timerId);
             }
